@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: socketbroker
+  data:
+    redis:
+      host: localhost
+      port: 6379
+caas:
+  socketbroker:
+    server:
+      port: 4001
+    redis:
+      db: 0
+  consumer:
+    server:
+      port: 6006
