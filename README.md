@@ -1,11 +1,11 @@
 # caas
 > P2P Container as a Service
 
-CaaS service contains three subprojects; agent, relay, telemetry.
+CaaS service contains three subprojects; agent, socketbroker, hub.
 
 ## agent service
 
-## relay service
+## socketbroker service
 
-## telemetry service
+## hub service
 
