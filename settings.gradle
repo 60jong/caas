@@ -7,5 +7,7 @@
 
 rootProject.name = 'caas'
 
-include(':services:socketbroker', ':services:caashub')
+include(':services:socketbroker',
+        ':services:hub',
+        ':libs:shared')
 

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Agent Register - caas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+</head>
+<body>
+<header>caas.hub</header>
+<main>
+    <div class="register-container">
+        <div class="register-title">Agent 등록</div>
+        <form id="agentForm">
+            <div class="form-group">
+                <label class="form-label" for="agentName">Agent 이름</label>
+                <input class="form-input" type="text" id="agentName" name="agentName" placeholder="예: agent-01" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="hostIp">호스트 IP</label>
+                <div class="ip-row">
+                    <input class="form-input" type="text" id="hostIp" name="hostIp" placeholder="IP를 가져오세요" readonly>
+                    <button type="button" class="btn btn-small" onclick="fetchIp()">호스트 IP 가져오기</button>
+                </div>
+            </div>
+            <button type="submit" class="btn" style="width:100%;margin-top:10px;">등록</button>
+        </form>
+    </div>
+    <script>
+        function fetchIp() {
+            fetch('https://api.ipify.org?format=json')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('hostIp').value = data.ip || '';
+                })
+                .catch(() => {
+                    alert('IP를 가져오지 못했습니다.');
+                });
+        }
+
+        document.getElementById('agentForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // 폼 기본 동작(새로고침) 방지
+
+            const agentName = document.getElementById('agentName').value;
+            const hostIp = document.getElementById('hostIp').value;
+
+            fetch('/api/v1/agent', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name: agentName,
+                    ip: hostIp
+                })
+            })
+                .then(response => {
+                    if (response.ok) {
+                        alert('Agent가 성공적으로 등록되었습니다!');
+                        // 필요시 폼 리셋 또는 리다이렉트
+                    } else {
+                        alert('등록에 실패했습니다.');
+                    }
+                })
+                .catch(() => {
+                    alert('서버와 통신 중 오류가 발생했습니다.');
+                });
+        });
+    </script>
+</main>
+</body>
+</html>
