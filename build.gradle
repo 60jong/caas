@@ -1,5 +1,5 @@
 allprojects {
-    group = 'dev._60jong.caas'
+    group = 'dev._60jong.p2pcaas'
     version = '0.0.1-SNAPSHOT'
 
     repositories {
