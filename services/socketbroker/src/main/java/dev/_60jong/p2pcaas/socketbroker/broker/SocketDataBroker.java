@@ -3,11 +3,13 @@ package dev._60jong.p2pcaas.socketbroker.broker;
 
 import dev._60jong.p2pcaas.socketbroker.connection.store.ConnectionStore;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.net.Socket;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class SocketDataBroker {
@@ -52,7 +54,7 @@ public class SocketDataBroker {
                     toSock.close();
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error(e.getMessage(), e);
             }
         }
     }

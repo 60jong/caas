@@ -1,7 +1,10 @@
 package dev._60jong.p2pcaas.shared.web.response;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class ApiResponse<T> {
     private int statusCode = 200;

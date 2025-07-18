@@ -42,6 +42,7 @@ public class ConsumerEventHandler {
         final String consumerId = IpEncryptor.encrypt(consumerSocket.getInetAddress().getHostAddress());
 
         final String conportId = getConportIdByConsumerId(consumerId);
+        System.out.println("ConsumerId : " + consumerId + " ConportId : " + conportId);
         consumerConnectionStore.saveConnection(conportId, consumerSocket);
         // 고가용성을 위해 conportId가 처리할 클라이언트 커넥션 저장
         // conport는 그저 저장된 클라이언트 소켓 순서대로 통신

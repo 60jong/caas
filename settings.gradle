@@ -9,5 +9,6 @@ rootProject.name = 'p2pcaas'
 
 include(':services:socketbroker',
         ':services:hub',
+        ':services:agent',
         ':libs:shared')
 

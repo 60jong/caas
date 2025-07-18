@@ -20,12 +20,12 @@ public class ConportEventHandler {
 
     @Async
     @EventListener
-    public void onAgentConnectedEvent(ConportConnectedEvent event) {
-        Socket agentSocket = event.agentSocket();
-        final String encryptedIp = IpEncryptor.encrypt(agentSocket.getInetAddress().getHostAddress());
+    public void onConportConnectedEvent(ConportConnectedEvent event) {
+        Socket conportSocket = event.agentSocket();
+        final String encryptedIp = IpEncryptor.encrypt(conportSocket.getInetAddress().getHostAddress());
 
-        conportConnectionStore.saveConnection(encryptedIp, agentSocket);
-
+        conportConnectionStore.saveConnection(encryptedIp, conportSocket);
+        System.out.println("Connected to conport with ip : " + encryptedIp);
         broker.execute(encryptedIp);
     }
 }

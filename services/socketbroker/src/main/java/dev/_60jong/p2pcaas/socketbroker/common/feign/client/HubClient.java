@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
         url = "${caas.hub.server.url}"
 )
 public interface HubClient {
-    @GetMapping("/api/v1/broker/{brokerEndpoint}/conport/id")
+    @GetMapping("/api/v1/broker/{brokerEndpoint}/mapping/conport/id")
     ApiResponse<String> getConportId(
             @PathVariable("brokerEndpoint") String brokerEndpoint,
             @RequestParam("consumer_id") String consumerId
