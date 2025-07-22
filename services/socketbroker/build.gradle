@@ -16,10 +16,6 @@ configurations {
     }
 }
 
-bootJar {
-    archiveFileName = "caas-socketbroker-app.jar"
-}
-
 dependencies {
     implementation project(':libs:shared')
 
