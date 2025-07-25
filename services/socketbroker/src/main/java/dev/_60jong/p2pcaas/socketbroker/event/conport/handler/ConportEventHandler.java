@@ -5,12 +5,14 @@ import dev._60jong.p2pcaas.socketbroker.broker.SocketDataBroker;
 import dev._60jong.p2pcaas.socketbroker.connection.store.ConnectionStore;
 import dev._60jong.p2pcaas.socketbroker.event.conport.ConportConnectedEvent;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import java.net.Socket;
 
+@Slf4j
 @RequiredArgsConstructor
 @Component
 public class ConportEventHandler {
@@ -25,7 +27,7 @@ public class ConportEventHandler {
         final String encryptedIp = IpEncryptor.encrypt(conportSocket.getInetAddress().getHostAddress());
 
         conportConnectionStore.saveConnection(encryptedIp, conportSocket);
-        System.out.println("Connected to conport with ip : " + encryptedIp);
+        log.info("Connected to conport {}", encryptedIp);
         broker.execute(encryptedIp);
     }
 }
