@@ -7,7 +7,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.Socket;
+import java.net.SocketException;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -39,23 +42,40 @@ public class SocketDataBroker {
         int read;
 
         try {
-            while ((read = fromSock.getInputStream().read(buf)) != -1) {
-                toSock.getOutputStream().write(buf, 0, read);
+            InputStream in = fromSock.getInputStream();
+            OutputStream out = toSock.getOutputStream();
+
+            while ((read = in.read(buf)) != -1) {
+                out.write(buf, 0, read);
+                out.flush();
+            }
+        } catch (SocketException se) {
+            if (fromSock.isClosed() || toSock.isClosed()) {
+                return;
+            }
+            log.error(se.getMessage(), se);
+        } catch (IOException e) {
+            log.error(e.getMessage(), e);
+        } finally {
+            closeSockets(fromSock, toSock);
+        }
+    }
+
+    private void closeSockets(Socket fromSock, Socket toSock) {
+        try {
+            if (!fromSock.isClosed()) {
+                fromSock.close();
             }
         } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (!fromSock.isClosed()) {
-                    fromSock.close();
-                }
+            log.error("Error closing fromSock: {}", e.getMessage(), e);
+        }
 
-                if (!toSock.isClosed()) {
-                    toSock.close();
-                }
-            } catch (IOException e) {
-                log.error(e.getMessage(), e);
+        try {
+            if (!toSock.isClosed()) {
+                toSock.close();
             }
+        } catch (IOException e) {
+            log.error("Error closing toSock: {}", e.getMessage(), e);
         }
     }
 }
